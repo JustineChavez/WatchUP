@@ -1,0 +1,125 @@
+{
+    "localization" : "Localization",
+    "title" : "WatchUP",
+    "subtitle" : "This is a test text only.",
+
+    "email" : "Email",
+    "password" : "Password",
+    "sign_in" : "Sign In",
+
+    "no_account" : "Don't have an account? ",
+    "reg_account" : "Register here",
+    "forgot_pass" : "Forgot Password? ",
+    "rec_account" : "Click here",
+
+    "register_title" : "Register",
+    
+    "register_subtitle" : "Create an account  for free.",
+    "name_text" : "Full Name",
+    "email_text" : "Email",
+    "password_text" : "Password",
+    "teacher_text" : "Teacher",
+    "student_text" : "Student",
+    "reg_button" : "Register",
+    "account_type_text" : "Account Type",
+
+    "username_validate" : "Please enter a valid username",
+    "email_validate" : "Please enter a valid email address",
+    "password_validate" : "Password must be at least 6 characters",
+    "fullname_validate" : "Please input your full name",
+
+    "prof_v_introduction" : "View Introduction",
+    "profile_title" : "My Profile",
+    "groups_title" : "My Group",
+    "topics_title" : "Lessons or Topics",
+    "games_title" : "Fun and Games",
+    "language_title" : "Localization",
+    "logout_title" : "Log Out",
+
+    "language_question" : "Are you sure you want to change language?",
+    "logout_question" : "Are you sure you want to logout?",
+
+    "group_create" : "Create Group",
+    "group_create_success" : "Group created successfully.",
+    "group_no" : "You've not joined any groups, tap on the add icon to create a group or also search from top search button.",
+    "group_join_as" : "Join the conversation as",
+
+    "cancel_button" : "Cancel",
+    "create_button" : "Create",
+    "exit_button" : "Exit",
+
+    "group_info" : "Group Info",
+    "group_exit_question" : "Are you sure you exit the group?",
+    "group_no_members" : "NO MEMBERS",
+
+    "group_search" : "Search for Groups",
+    "group_search_hint" : "Search groups....",
+    "group_join_success" : "Successfully joined the group",
+    "group_left_success" : "Left the group",
+
+    "group_joined" : "Joined",
+    "group_join" : "Join Now",
+
+    "message_send_hint" : "Send a message...",
+
+    "topic_create" : "Create Topic",
+    "topic_create_success" : "Topic created successfully.",
+    "topic_no" : "You've not created any topics, tap on the add icon to create a topic or also search from top search button.",
+    "topic_not_allowed" : "Not allowed to create topics.",
+
+    "topic_name" : "Topic",
+    "topic_subject" : "Subject",
+    "topic_about" : "About",
+    
+    "recover_title" : "Recover",
+    "recover_subtitle" : "Save your account.",
+    "recover_button" : "Reset Password",
+    "recover_email_sent" : "Password reset link sent!, Check your email",
+    "recover_email_fail" : "The email you entered is not existing.",
+
+    "topic_button_upload" : "Upload",
+
+    "topic_click_buttons" : "Buttons for upload:",
+    "topic_upload_file" : "Upload a file",
+    "topic_select_file" : "Select a file",
+    "topic_upload_image" : "Upload an image",
+    "topic_select_image" : "Select an image",
+    "topic_upload_video" : "Upload a video",
+    "topic_select_video" : "Select a video",
+
+    "topic_search" : "Search Topics",
+    "topic_search_hint" : "Search for topics...",
+    "topic_join_success" : "Successfully joined the topic",
+    "topic_join_as" : "Join topic as ",
+    "topic_joined" : "Joined",
+    "topic_join" : "Join",
+
+    "topic_download_file" : "Download a file",
+    "topic_download_image" : "Download an image",
+    "topic_download_video" : "Download a video",
+
+    "downloaded" : "Downloaded",
+    "image" : "Image",
+    "file" : "File",
+    "video" : "video",
+
+    "delete_title" : "Confirm Delete",
+    "delete_file" : "Are you sure you want to delete this file?",
+    "delete_image" : "Are you sure you want to delete this image?",
+    "delete_video" : "Are you sure you want to delete this video?",
+
+    "topic_created_by" : "Created by: ",
+    "to_do" : "What do you want to do?",
+    "topic_detail_saved" : "New details successfully saved.",
+
+    "reels_title" : "Reels",
+    "reels_select" : "Select Reels",
+    "reels_upload" : "Upload Reels",
+
+    "reel_search" : "Search Reels",
+    "reel_search_hint" : "type reel name...",
+
+    "topic_no_download" : "Not allowed to delete.",
+
+    "profile_pic_upload" : "Profile Picture"
+}

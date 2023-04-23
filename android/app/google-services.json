@@ -1,0 +1,121 @@
+{
+  "project_info": {
+    "project_number": "332585078492",
+    "project_id": "test-flutter-login-bcb8f",
+    "storage_bucket": "test-flutter-login-bcb8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332585078492:android:f76e772323924b8602ee19",
+        "android_client_info": {
+          "package_name": "com.example.flutter_wachup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332585078492-finucf9et2uu6r7eau5b12989i0qlvh7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_wachup",
+            "certificate_hash": "48366ed9ccd88de699de828314a81b7726b5aa92"
+          }
+        },
+        {
+          "client_id": "332585078492-16kqf2959cteamseeo044ipj1dpc648v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACqlhn_YCr2KlJt7M30eSNDZAgkwHBQ-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332585078492-16kqf2959cteamseeo044ipj1dpc648v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332585078492:android:8ee465745f6a2d9302ee19",
+        "android_client_info": {
+          "package_name": "com.example.flutter_wachup_11"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332585078492-7nem3prad3ujugred7p725i2m72p7hqs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_wachup_11",
+            "certificate_hash": "48366ed9ccd88de699de828314a81b7726b5aa92"
+          }
+        },
+        {
+          "client_id": "332585078492-16kqf2959cteamseeo044ipj1dpc648v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACqlhn_YCr2KlJt7M30eSNDZAgkwHBQ-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332585078492-16kqf2959cteamseeo044ipj1dpc648v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332585078492:android:e42b378f977d5a4202ee19",
+        "android_client_info": {
+          "package_name": "com.example.wachup_android_12"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332585078492-en78hthel6uh13efdpn9nsethga21qv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wachup_android_12",
+            "certificate_hash": "48366ed9ccd88de699de828314a81b7726b5aa92"
+          }
+        },
+        {
+          "client_id": "332585078492-16kqf2959cteamseeo044ipj1dpc648v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACqlhn_YCr2KlJt7M30eSNDZAgkwHBQ-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332585078492-16kqf2959cteamseeo044ipj1dpc648v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

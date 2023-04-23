@@ -1,0 +1,125 @@
+{
+    "localization" : "Lokalisasyon",
+    "title" : "Watsup",
+    "subtitle" : "Ito ay halimbawang salita lamang.",
+
+    "email" : "Sulatronikó",
+    "password" : "Hudyat",
+    "sign_in" : "Tumuloy",
+
+    "no_account" : "Wala ka pang akawnt? ",
+    "reg_account" : "Magrehistro dito",
+    "forgot_pass" : "Nakalimutan ang hudyat? ",
+    "rec_account" : "Pindutin ito",
+
+    "register_title" : "Rehistro",
+    
+    "register_subtitle" : "Gumawa ng akawnt ng libre.",
+    "name_text" : "Buong Pangalan",
+    "email_text" : "Sulatronikó",
+    "password_text" : "Hudyat",
+    "teacher_text" : "Guro",
+    "student_text" : "Estudyante",
+    "reg_button" : "Magrehistro",
+    "account_type_text" : "Akawnt Tayp",
+
+    "username_validate" : "Ipasok lamang ang tamang sulatroniko",
+    "email_validate" : "Ipasok lamang ang tamang sulatroniko",
+    "password_validate" : "Ang hudyat ay dapat hindi bababa sa anim na karakter",
+    "fullname_validate" : "Ipasok ang buong pangalan",
+
+    "prof_v_introduction" : "Tingnan Ang Introduksyon",
+    "profile_title" : "Aking Propayl",
+    "groups_title" : "Aking Grupo",
+    "topics_title" : "Paksa at Leksyon",
+    "games_title" : "Kasayahan at Laro",
+    "language_title" : "Lokalisasyon",
+    "logout_title" : "Lumiban",
+
+    "language_question" : "Sigurado kang gusto mong baguhin ang wika?",
+    "logout_question" : "Sigurado kang gusto mong lumiban na?",
+
+    "group_create" : "Gumawa ng Grupo",
+    "group_create_success" : "Matagumpay na nagawa ang grupo.",
+    "group_no" : "Ikaw ay hindi kasali sa kahit anong grupo, pindutin ang add icon para gumawa ng sarili o humanap ng grupo na masasalihan.",
+    "group_join_as" : "Sumali sa usapan bilang si",
+
+    "cancel_button" : "Ikansela",
+    "create_button" : "Gumawa",
+    "exit_button" : "Lumiban",
+
+    "group_info" : "Impormasyon Sa Grupo",
+    "group_exit_question" : "Sigurado ka bang nais mong lumiban sa grupo? ",
+    "group_no_members" : "WALANG MIYEMBRO",
+
+    "group_search" : "Maghanap ng Grupo",
+    "group_search_hint" : "Maghanap ng grupo....",
+    "group_join_success" : "Matagumpay na nakasali sa grupo",
+    "group_left_success" : "Niliban na ang grupong",
+
+    "group_joined" : "Kasali",
+    "group_join" : "Sumali",
+
+    "message_send_hint" : "Ipadala ang mensahe...",
+
+    "topic_create" : "Gumawa ng Paksa",
+    "topic_create_success" : "Matagumpay na nagawa ang paksa.",
+    "topic_no" : "Ikaw ay hindi pa gumagawa ng kahit anong paksa, pindutin ang add icon para gumawa o humanap ng paksa.",
+    "topic_not_allowed" : "Hindi maaaring gumawa ng paksa.",
+
+    "topic_name" : "Paksa",
+    "topic_subject" : "Asignatura",
+    "topic_about" : "Tungkol saan",
+    
+    "recover_title" : "Isalba",
+    "recover_subtitle" : "Iligtas ang iyong akawnt",
+    "recover_button" : "I-reset and hudyat",
+    "recover_email_sent" : "Matagumpay! Maaari mo ng tingnan ang iyong sulatroniko.",
+    "recover_email_fail" : "Ang sulatronikong iyong ipinasok ay mali.",
+
+    "topic_button_upload" : "Mag-upload",
+
+    "topic_click_buttons" : "Mga pindutan para mag-upload:",
+    "topic_upload_file" : "Pumili ng payl",
+    "topic_select_file" : "Piliin ang payl",
+    "topic_upload_image" : "Pumili ng imahe",
+    "topic_select_image" : "Piliin ang imahe",
+    "topic_upload_video" : "Pumili ng bidyo",
+    "topic_select_video" : "Piliin ang bidyo",
+
+    "topic_search" : "Maghanap ng Paksa",
+    "topic_search_hint" : "humanap ng paksa...",
+    "topic_join_success" : "Matagumpay na nakasali sa paksa",
+    "topic_join_as" : "sumali sa paksa bilang si ",
+    "topic_joined" : "Kasali",
+    "topic_join" : "Sumali",
+
+    "topic_download_file" : "I-download ang payl",
+    "topic_download_image" : "I-download ang imahe",
+    "topic_download_video" : "I-download ang bidyo",
+
+    "downloaded" : "Na-Download",
+    "image" : "Imahe",
+    "file" : "Payl",
+    "video" : "Bidyo",
+
+    "delete_title" : "Ikumpirma ang Pagbura",
+    "delete_file" : "Sigurado ka bang nais mong burahin ang payl?",
+    "delete_image" : "Sigurado ka bang nais mong burahin ang imahe?",
+    "delete_video" : "Sigurado ka bang nais mong burahin ang bidyo?",
+
+    "topic_created_by" : "Ginawa ni: ",
+    "to_do" : "Ano ang iyong nais gawin?",
+    "topic_detail_saved" : "Ang mga bagong detalye ay matagumpay na nai-save.",
+
+    "reels_title" : "Reels",
+    "reels_select" : "Pumili ng reels",
+    "reels_upload" : "I-upload ang reels",
+
+    "reel_search" : "Maghanap ng Reels",
+    "reel_search_hint" : "Isulat ang pangalan ng reels...",
+
+    "topic_no_download" : "Hindi maaaring burahin.",
+
+    "profile_pic_upload" : "Propayl Piktyur"
+}
