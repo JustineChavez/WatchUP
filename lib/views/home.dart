@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wachup_android_12/helper/helper_function.dart';
+import 'package:wachup_android_12/pages/home_page.dart';
 import 'package:wachup_android_12/service/auth_service.dart';
 import 'package:wachup_android_12/services/database.dart';
 import 'package:wachup_android_12/shared/constants.dart';
@@ -66,6 +67,16 @@ class _QuizState extends State<Quiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+              onPressed: () {
+                nextScreenReplace(context, const HomePage());
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+              )),
+        ],
         title: appBar(context),
         backgroundColor: Colors.transparent,
         elevation: 0.0,

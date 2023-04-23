@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:wachup_android_12/views/play_quiz_video.dart';
-import 'package:wachup_android_12/views/quiz_content.dart';
+import 'package:wachup_android_12/views/home.dart';
 import 'package:wachup_android_12/views/widgets/widgets.dart';
+import 'package:wachup_android_12/widgets/widgets.dart';
 
-import '../widgets/widgets.dart';
-
-class Results extends StatefulWidget {
+class PostResults extends StatefulWidget {
   final int correct, incorrect, total;
   final quizId;
-  const Results(
+  const PostResults(
       {required this.correct,
       required this.incorrect,
       required this.total,
       required this.quizId});
 
   @override
-  _ResultsState createState() => _ResultsState();
+  _PostResultsState createState() => _PostResultsState();
 }
 
-class _ResultsState extends State<Results> {
+class _PostResultsState extends State<PostResults> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +47,12 @@ class _ResultsState extends State<Results> {
               ),
               GestureDetector(
                 onTap: () {
-                  nextScreen(context, PlayQuizVideo(quizId: widget.quizId));
                   //Navigator.pop(context);
+                  nextScreen(context, Quiz());
                 },
                 child: blueButton(
                   context: context,
-                  label: "Play Video",
+                  label: "Go to Home",
                   buttonWidth: MediaQuery.of(context).size.width / 2,
                 ),
               ),

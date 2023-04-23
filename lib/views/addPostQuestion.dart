@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wachup_android_12/services/database.dart';
-import 'package:wachup_android_12/views/upload_quiz_video.dart';
+import 'package:wachup_android_12/views/home.dart';
 import 'package:wachup_android_12/views/widgets/widgets.dart';
 import 'package:wachup_android_12/widgets/widgets.dart';
 
-class AddQuestion extends StatefulWidget {
+class AddPostQuestion extends StatefulWidget {
   final String quizId;
-  AddQuestion(this.quizId);
+  AddPostQuestion(this.quizId);
 
   @override
-  _AddQuestionState createState() => _AddQuestionState();
+  _AddPostQuestionState createState() => _AddPostQuestionState();
 }
 
-class _AddQuestionState extends State<AddQuestion> {
+class _AddPostQuestionState extends State<AddPostQuestion> {
   final _formKey = GlobalKey<FormState>();
   String question = "";
   String option1 = "";
@@ -37,7 +37,7 @@ class _AddQuestionState extends State<AddQuestion> {
         "option4": option4
       };
       await databaseService
-          .addQuestionData(questionMap, widget.quizId)
+          .addPostQuestionData(questionMap, widget.quizId)
           .then((value) {
         setState(() {
           _isLoading = false;
@@ -137,15 +137,11 @@ class _AddQuestionState extends State<AddQuestion> {
                         GestureDetector(
                           onTap: () {
                             //Navigator.pop(context);
-                            nextScreen(
-                                context,
-                                UploadQuizVideoPage(
-                                  quizId: widget.quizId,
-                                ));
+                            nextScreen(context, Quiz());
                           },
                           child: blueButton(
                             context: context,
-                            label: "Add video",
+                            label: "Submit",
                             buttonWidth:
                                 MediaQuery.of(context).size.width / 2 - 36,
                           ),

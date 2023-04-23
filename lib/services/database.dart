@@ -3,14 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
   Future<String> addQuizData(
       Map<String, dynamic> quizData, String quizId) async {
-    // await FirebaseFirestore.instance
-    //     .collection("Quiz")
-    //     .doc(quizId)
-    //     .update(quizData)
-    //     .catchError((e) {
-    //   print(e.toString());
-    // });
-
     DocumentReference quizDocumentReference =
         await FirebaseFirestore.instance.collection("Quiz").add(quizData);
     // update the members
@@ -32,6 +24,18 @@ class DatabaseService {
     });
   }
 
+  Future<void> addPostQuestionData(
+      Map<String, dynamic> questionData, String quizId) async {
+    await FirebaseFirestore.instance
+        .collection("Quiz")
+        .doc(quizId)
+        .collection("PostQNA")
+        .add(questionData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   getQuizData() async {
     return FirebaseFirestore.instance.collection("Quiz").snapshots();
   }
@@ -42,5 +46,25 @@ class DatabaseService {
         .doc(quizId)
         .collection("QNA")
         .get();
+  }
+
+  getsQuizVideo(String quizId) async {
+    return FirebaseFirestore.instance
+        .collection("Quiz")
+        .doc(quizId)
+        .collection("VIDEO")
+        .get();
+  }
+
+  getsPostQuizData(String quizId) async {
+    return FirebaseFirestore.instance
+        .collection("Quiz")
+        .doc(quizId)
+        .collection("PostQNA")
+        .get();
+  }
+
+  getReelsData() async {
+    return FirebaseFirestore.instance.collection("reels").snapshots();
   }
 }

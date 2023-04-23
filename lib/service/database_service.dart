@@ -406,8 +406,6 @@ class DatabaseService {
       (querySnapshot) {
         print("Successfully completed");
         for (var docSnapshot in querySnapshot.docs) {
-          //print('${docSnapshot.id} => ${docSnapshot.get("reelVideo")}');
-          //videos.add(docSnapshot.get("reelVideo"));
           videos.add(docSnapshot.id);
         }
       },
@@ -492,5 +490,64 @@ class DatabaseService {
   // get topics
   Future getAllQuizes() async {
     return quizCollection.snapshots();
+  }
+
+  Future<void> addQuizVideo(
+      Map<String, dynamic> quizVideoData, String quizId) async {
+    await FirebaseFirestore.instance
+        .collection("Quiz")
+        .doc(quizId)
+        .collection("VIDEO")
+        .add(quizVideoData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  addComment(String reelId, Map<String, dynamic> commentData) async {
+    reelCollection.doc(reelId).collection("comments").add(commentData);
+  }
+
+  getComments(String reelId) async {
+    return reelCollection
+        .doc(reelId)
+        .collection("comments")
+        .orderBy("time")
+        .snapshots();
+  }
+
+  getLikes(String reelId) async {
+    return reelCollection
+        .doc(reelId)
+        .collection("likes")
+        .orderBy("time")
+        .snapshots();
+  }
+
+  addLikes(String reelId, Map<String, dynamic> likeData) async {
+    reelCollection.doc(reelId).collection("likes").add(likeData);
+  }
+
+  getAttachments(String reelId) async {
+    return reelCollection.doc(reelId).collection("attachments").snapshots();
+  }
+
+  addAttachment(String reelId, Map<String, dynamic> fileData) async {
+    DocumentReference fileDocumentReference = await reelCollection
+        .doc(reelId)
+        .collection("attachments")
+        .add(fileData);
+
+    await fileDocumentReference.update({
+      "id": fileDocumentReference.id,
+    });
+  }
+
+  deleteAttachment(String reelId, String fileId) async {
+    return reelCollection
+        .doc(reelId)
+        .collection("attachments")
+        .doc(fileId)
+        .delete();
   }
 }

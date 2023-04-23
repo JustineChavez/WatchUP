@@ -9,15 +9,15 @@ import '../../shared/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class UploadFilePage extends StatefulWidget {
-  String topicId;
-  UploadFilePage({Key? key, required this.topicId}) : super(key: key);
+class UploadAttachmentPage extends StatefulWidget {
+  String reelId;
+  UploadAttachmentPage({Key? key, required this.reelId}) : super(key: key);
 
   @override
-  State<UploadFilePage> createState() => _UploadFilePageState();
+  State<UploadAttachmentPage> createState() => _UploadAttachmentPageState();
 }
 
-class _UploadFilePageState extends State<UploadFilePage> {
+class _UploadAttachmentPageState extends State<UploadAttachmentPage> {
   AuthService authService = AuthService();
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
@@ -186,7 +186,7 @@ class _UploadFilePageState extends State<UploadFilePage> {
   }
 
   Future uploadFile() async {
-    final path = "files/${widget.topicId}/${pickedFile!.name}";
+    final path = "attachment/${widget.reelId}/${pickedFile!.name}";
     final file = File(pickedFile!.path!);
     //print(path);
     //print(file);
@@ -216,19 +216,6 @@ class _UploadFilePageState extends State<UploadFilePage> {
       "time": DateTime.now().millisecondsSinceEpoch,
     };
     //print(widget.topicId);
-    DatabaseService().addFileContent(widget.topicId, fileContentMap);
-  }
-
-  addFile() async {
-    if (pickedFile!.name.isNotEmpty) {
-      Map<String, dynamic> fileContentMap = {
-        "id": "",
-        "content": pickedFile!.name,
-        "content2": "files/${widget.topicId}/${pickedFile!.name}",
-        "time": DateTime.now().millisecondsSinceEpoch,
-      };
-      //print(widget.topicId);
-      DatabaseService().addAttachment(widget.topicId, fileContentMap);
-    }
+    DatabaseService().addFileContent(widget.reelId, fileContentMap);
   }
 }

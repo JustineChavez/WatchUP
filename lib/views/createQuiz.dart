@@ -49,13 +49,11 @@ class _CreateQuizState extends State<CreateQuiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: appBar(context),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.black87),
-        brightness: Brightness.light,
-      ),
+          title: appBar(context),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.black87)),
       body: _isLoading
           ? Container(
               child: Center(

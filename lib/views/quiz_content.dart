@@ -4,50 +4,27 @@ import 'package:wachup_android_12/pages/screens/like_icon.dart';
 import 'package:wachup_android_12/pages/screens/content_screen.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../service/database_service.dart';
-import 'options_screen.dart';
+class QuizVideoContent extends StatefulWidget {
+  final String? src;
 
-class ContentScreen extends StatefulWidget {
-  final String? reelVideo;
-  final String? reelId;
-  final String? reelCreator;
-  final String? reelCreatorName;
-  final int? reelLikes;
-  final String? reelName;
-
-  final String? userEmail;
-  final String? userName;
-
-  const ContentScreen(
-      {Key? key,
-      required this.reelVideo,
-      required this.reelId,
-      required this.reelCreator,
-      required this.reelCreatorName,
-      required this.reelLikes,
-      required this.reelName,
-      required this.userEmail,
-      required this.userName})
-      : super(key: key);
+  const QuizVideoContent({Key? key, this.src}) : super(key: key);
 
   @override
-  _ContentScreenState createState() => _ContentScreenState();
+  _QuizVideoContentState createState() => _QuizVideoContentState();
 }
 
-class _ContentScreenState extends State<ContentScreen> {
-  //String? videoURL;
+class _QuizVideoContentState extends State<QuizVideoContent> {
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
   bool _liked = false;
   @override
   void initState() {
-    //gettingReelVideo();
     super.initState();
     initializePlayer();
   }
 
   Future initializePlayer() async {
-    _videoPlayerController = VideoPlayerController.network(widget.reelVideo!);
+    _videoPlayerController = VideoPlayerController.network(widget.src!);
     await Future.wait([_videoPlayerController.initialize()]);
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
@@ -90,19 +67,6 @@ class _ContentScreenState extends State<ContentScreen> {
                   Text('Loading...')
                 ],
               ),
-        if (_liked)
-          Center(
-            child: LikeIcon(),
-          ),
-        OptionScreen(
-            reelVideo: widget.reelVideo,
-            reelId: widget.reelId,
-            reelCreator: widget.reelCreator,
-            reelCreatorName: widget.reelCreatorName,
-            reelLikes: widget.reelLikes,
-            reelName: widget.reelName,
-            userEmail: widget.userEmail,
-            userName: widget.userName)
       ],
     );
   }

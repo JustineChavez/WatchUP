@@ -3,25 +3,27 @@ import 'dart:math';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:wachup_android_12/service/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:wachup_android_12/views/addPostQuestion.dart';
 
 import '../../service/database_service.dart';
 import '../../shared/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:video_player/video_player.dart';
 
-class UploadFilePage extends StatefulWidget {
-  String topicId;
-  UploadFilePage({Key? key, required this.topicId}) : super(key: key);
+class UploadQuizVideoPage extends StatefulWidget {
+  String quizId;
+  UploadQuizVideoPage({Key? key, required this.quizId}) : super(key: key);
 
   @override
-  State<UploadFilePage> createState() => _UploadFilePageState();
+  State<UploadQuizVideoPage> createState() => _UploadQuizVideoPageState();
 }
 
-class _UploadFilePageState extends State<UploadFilePage> {
+class _UploadQuizVideoPageState extends State<UploadQuizVideoPage> {
   AuthService authService = AuthService();
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
-  String? url;
+  VideoPlayerController? _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +62,14 @@ class _UploadFilePageState extends State<UploadFilePage> {
                         height: 20,
                       ),
                       Text(
-                        Locales.string(context, "topic_upload_file"),
+                        Locales.string(context, "topic_upload_video"),
                         style: TextStyle(
                             color: Constants().customBackColor,
                             fontSize: 23,
                             fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       pickedFile != null
                           ? Container(
@@ -94,7 +96,7 @@ class _UploadFilePageState extends State<UploadFilePage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8))),
                           child: Text(
-                            Locales.string(context, "topic_select_file"),
+                            Locales.string(context, "topic_select_video"),
                             style: TextStyle(
                                 color: Constants().customBackColor,
                                 fontSize: 16),
@@ -124,16 +126,11 @@ class _UploadFilePageState extends State<UploadFilePage> {
                                 fontSize: 16),
                           ),
                           onPressed: () {
-                            //testAddFile();
-                            uploadFile();
-                            //addFileURL();
-                            //addFile();
-                            //login();
-                            //loginOffline();
+                            uploadVideo();
                           },
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       uploadTask != null
                           ? buildUploadStatus(uploadTask!)
                           : Container()
@@ -177,16 +174,17 @@ class _UploadFilePageState extends State<UploadFilePage> {
   }
 
   Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles();
+    final result = await FilePicker.platform.pickFiles(type: FileType.video);
     if (result == null) return;
 
     setState(() {
       pickedFile = result.files.first;
+      _controller = VideoPlayerController.file(File(pickedFile!.path!));
     });
   }
 
-  Future uploadFile() async {
-    final path = "files/${widget.topicId}/${pickedFile!.name}";
+  Future uploadVideo() async {
+    final path = "Quiz/videos/${widget.quizId}/${pickedFile!.name}";
     final file = File(pickedFile!.path!);
     //print(path);
     //print(file);
@@ -197,38 +195,23 @@ class _UploadFilePageState extends State<UploadFilePage> {
     final snapshot = await uploadTask!.whenComplete(() => {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     if (urlDownload.isNotEmpty) {
-      setState(() {
-        url = urlDownload;
-      });
-      //addFileURL();
-      addFileURL(urlDownload);
+      addVideoURL(widget.quizId, urlDownload);
       await Future.delayed(const Duration(seconds: 2));
-      Navigator.of(context).pop();
+      setState(() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddPostQuestion(widget.quizId),
+            ));
+      });
+      //Navigator.of(context).pop();
     }
-    print('Download Link: $urlDownload');
+    //print('Download Link: $urlDownload');
   }
 
-  addFileURL(String uuurrrlll) {
-    Map<String, dynamic> fileContentMap = {
-      "id": "",
-      "content": pickedFile!.name,
-      "content2": uuurrrlll,
-      "time": DateTime.now().millisecondsSinceEpoch,
-    };
+  addVideoURL(String quizId, String uuurrrlll) {
+    Map<String, dynamic> fileContentMap = {"videoURL": uuurrrlll};
     //print(widget.topicId);
-    DatabaseService().addFileContent(widget.topicId, fileContentMap);
-  }
-
-  addFile() async {
-    if (pickedFile!.name.isNotEmpty) {
-      Map<String, dynamic> fileContentMap = {
-        "id": "",
-        "content": pickedFile!.name,
-        "content2": "files/${widget.topicId}/${pickedFile!.name}",
-        "time": DateTime.now().millisecondsSinceEpoch,
-      };
-      //print(widget.topicId);
-      DatabaseService().addAttachment(widget.topicId, fileContentMap);
-    }
+    DatabaseService().addQuizVideo(fileContentMap, quizId);
   }
 }

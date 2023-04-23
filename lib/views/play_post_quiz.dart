@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:wachup_android_12/models/question_model.dart';
 import 'package:wachup_android_12/services/database.dart';
 import 'package:wachup_android_12/views/result.dart';
+import 'package:wachup_android_12/views/result_post.dart';
 import 'package:wachup_android_12/widgets/quiz_play_widgets.dart';
 import 'package:wachup_android_12/views/widgets/widgets.dart';
 
-class PlayQuiz extends StatefulWidget {
+class PlayPostQuiz extends StatefulWidget {
   final String quizId;
-  PlayQuiz({required this.quizId});
+  PlayPostQuiz({required this.quizId});
 
   @override
-  _PlayQuizState createState() => _PlayQuizState();
+  _PlayPostQuizState createState() => _PlayPostQuizState();
 }
 
 int total = 0;
@@ -19,7 +20,7 @@ int _correct = 0;
 int _incorrect = 0;
 int _notAttempted = 0;
 
-class _PlayQuizState extends State<PlayQuiz> {
+class _PlayPostQuizState extends State<PlayPostQuiz> {
   DatabaseService databaseService = new DatabaseService();
   QuerySnapshot? questionSnapshot;
 
@@ -47,7 +48,7 @@ class _PlayQuizState extends State<PlayQuiz> {
   @override
   void initState() {
     print("Quiz Id : ${widget.quizId}");
-    databaseService.getsQuizData(widget.quizId).then((value) {
+    databaseService.getsPostQuizData(widget.quizId).then((value) {
       questionSnapshot = value;
       _notAttempted = 0;
       _correct = 0;
@@ -64,7 +65,7 @@ class _PlayQuizState extends State<PlayQuiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pre-Quiz"), //appBar(context),
+        title: const Text("Post-Quiz"), //appBar(context),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
@@ -102,7 +103,7 @@ class _PlayQuizState extends State<PlayQuiz> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => Results(
+                builder: (context) => PostResults(
                   correct: _correct,
                   incorrect: _incorrect,
                   total: total,
