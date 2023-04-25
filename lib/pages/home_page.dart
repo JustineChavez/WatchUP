@@ -76,17 +76,6 @@ class _HomePageState extends State<HomePage> {
         groups = snapshot;
       });
     });
-
-    // await DatabaseService().gettingPictureURL(email).then((snapshot) {
-    //   setState(() {
-    //     profilePictureURL = snapshot;
-    //   });
-    // });
-
-    // var snaps = await DatabaseService().gettingPictureURL(email);
-    // setState(() {
-    //   profilePictureURL = snaps;
-    // });
   }
 
   gettingUserDataOffline() async {

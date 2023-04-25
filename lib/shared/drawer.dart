@@ -66,19 +66,13 @@ class CustomDrawer extends Drawer {
           onTap: () {
             print(currentPage);
             if (currentPage != 5) {
-              nextScreen(
-                  context,
-                  // TopicPage(
-                  //   userName: currentUserName,
-                  //   email: currentEmail,
-                  //   accountType: currentAccountType,
-                  // ));
-                  ReelsPage(
-                    userName: currentUserName,
-                    email: currentEmail,
-                    accountType: currentAccountType,
-                    ppURL: ppURL,
-                  ));
+              nextScreen(context, ReelsPage());
+              //ReelsPage(
+              //   userName: currentUserName,
+              //   email: currentEmail,
+              //   accountType: currentAccountType,
+              //   ppURL: ppURL,
+              // ));
             }
           },
           selected: currentPage == 5 ? true : false,

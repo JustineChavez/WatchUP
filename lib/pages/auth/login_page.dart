@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:wachup_android_12/pages/auth/recover_page.dart';
 import 'package:wachup_android_12/pages/auth/register_page.dart';
+import 'package:wachup_android_12/pages/screens/reels_page.dart';
 import 'package:wachup_android_12/service/auth_service.dart';
 import 'package:wachup_android_12/service/database_service.dart';
 import 'package:wachup_android_12/shared/constants.dart';
@@ -220,7 +221,8 @@ class _LoginPageState extends State<LoginPage> {
               snapshot.docs[0]['userLanguage']);
           await HelperFunctions.saveProfilePictureSF(
               snapshot.docs[0]['profilePic']);
-          nextScreenReplace(context, HomePage());
+          //nextScreenReplace(context, HomePage());
+          nextScreenReplace(context, ReelsPage());
         } else {
           showSnackbar(context, value, Constants().customColor2);
           setState(() {
