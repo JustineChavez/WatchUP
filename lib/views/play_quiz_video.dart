@@ -13,7 +13,25 @@ import '../services/database.dart';
 
 class PlayQuizVideo extends StatefulWidget {
   String quizId;
-  PlayQuizVideo({Key? key, required this.quizId}) : super(key: key);
+  final String currentUser;
+  final String creator;
+  final String topicId;
+  final String topicName;
+  final String topicSubject;
+  final bool isView;
+
+  final String preTestScore;
+  PlayQuizVideo(
+      {Key? key,
+      required this.quizId,
+      required this.currentUser,
+      required this.creator,
+      required this.topicId,
+      required this.topicName,
+      required this.topicSubject,
+      required this.isView,
+      required this.preTestScore})
+      : super(key: key);
 
   @override
   State<PlayQuizVideo> createState() => _PlayQuizVideo();
@@ -57,6 +75,13 @@ class _PlayQuizVideo extends State<PlayQuizVideo> {
                     context,
                     PlayPostQuiz(
                       quizId: widget.quizId,
+                      creator: widget.creator,
+                      currentUser: widget.currentUser,
+                      topicId: widget.topicId,
+                      topicName: widget.topicName,
+                      topicSubject: widget.topicSubject,
+                      isView: widget.isView,
+                      preTestScore: widget.preTestScore,
                     ));
               },
               icon: const Icon(

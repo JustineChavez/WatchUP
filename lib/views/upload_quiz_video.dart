@@ -13,7 +13,22 @@ import 'package:video_player/video_player.dart';
 
 class UploadQuizVideoPage extends StatefulWidget {
   String quizId;
-  UploadQuizVideoPage({Key? key, required this.quizId}) : super(key: key);
+  final String creator;
+  final String currentUserName;
+  final String topicId;
+  final String topicName;
+  final String topicSubject;
+  final bool isView;
+  UploadQuizVideoPage(
+      {Key? key,
+      required this.quizId,
+      required this.creator,
+      required this.currentUserName,
+      required this.topicId,
+      required this.topicName,
+      required this.topicSubject,
+      required this.isView})
+      : super(key: key);
 
   @override
   State<UploadQuizVideoPage> createState() => _UploadQuizVideoPageState();
@@ -201,7 +216,14 @@ class _UploadQuizVideoPageState extends State<UploadQuizVideoPage> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => AddPostQuestion(widget.quizId),
+              builder: (context) => AddPostQuestion(
+                  widget.quizId,
+                  widget.currentUserName,
+                  widget.topicId,
+                  widget.creator,
+                  widget.topicName,
+                  widget.topicSubject,
+                  widget.isView),
             ));
       });
       //Navigator.of(context).pop();

@@ -87,11 +87,11 @@ class _QuizState extends State<Quiz> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CreateQuiz(),
-              ));
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => CreateQuiz(topicId: "0"),
+          //     ));
         },
       ),
     );
@@ -114,13 +114,13 @@ class QuizTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PlayQuiz(
-                quizId: quizId,
-              ),
-            ));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => PlayQuiz(
+        //         quizId: quizId,
+        //       ),
+        //     ));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 8),

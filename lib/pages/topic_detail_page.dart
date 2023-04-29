@@ -1,21 +1,29 @@
 import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:wachup_android_12/pages/screens/score_page.dart';
+import 'package:wachup_android_12/pages/topic_page.dart';
 import 'package:wachup_android_12/pages/upload/upload_file.dart';
 import 'package:wachup_android_12/pages/upload/upload_image.dart';
 import 'package:wachup_android_12/pages/upload/upload_video.dart';
 import 'package:wachup_android_12/service/database_service.dart';
+import 'package:wachup_android_12/views/createQuiz.dart';
+//import 'package:wachup_android_12/views/home.dart';
 import 'package:wachup_android_12/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../services/databaseQuiz.dart';
 import '../shared/constants.dart';
+import '../views/play_quiz.dart';
 import '../widgets/file_tile.dart';
 import '../widgets/image_tile.dart';
 import '../widgets/video_tile.dart';
 
 class TopicDetailPage extends StatefulWidget {
+  final String currentUserName;
   final String creator;
   final String topicId;
   final String topicName;
@@ -25,6 +33,7 @@ class TopicDetailPage extends StatefulWidget {
 
   const TopicDetailPage(
       {Key? key,
+      required this.currentUserName,
       required this.creator,
       required this.topicId,
       required this.topicName,
@@ -40,6 +49,9 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
   Stream<QuerySnapshot>? files;
   Stream<QuerySnapshot>? videos;
   Stream<QuerySnapshot>? images;
+  dynamic quizStream;
+  DatabaseQuizService databaseService = new DatabaseQuizService();
+
   TextEditingController messageController = TextEditingController();
   String admin = "";
 
@@ -55,6 +67,11 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
     getFileContents();
     getVideoContents();
     getImageContents();
+    databaseService.getQuizDataPerTopic(widget.topicId).then((val) {
+      setState(() {
+        quizStream = val;
+      });
+    });
     super.initState();
     setState(() {
       subject = widget.topicSubject;
@@ -99,7 +116,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
           backgroundColor: Constants().customColor1,
           appBar: buildAppBar(),
@@ -201,6 +218,11 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
                       icon: Icon(
                     Icons.video_camera_back_rounded,
                     color: Constants().customColor1,
+                  )),
+                  Tab(
+                      icon: Icon(
+                    Icons.quiz_rounded,
+                    color: Constants().customColor1,
                   ))
                 ]),
               ),
@@ -216,6 +238,8 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
                     Container(
                         color: Constants().customBackColor,
                         child: videoContents()),
+                    Container(
+                        color: Constants().customBackColor, child: quizList())
                   ],
                 ),
               ),
@@ -298,6 +322,36 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
                               ),
                               child: Center(
                                   child: Icon(
+                                Icons.add_to_photos_outlined,
+                                color: Constants().customBackColor,
+                              )),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              nextScreenReplace(
+                                  context,
+                                  CreateQuiz(
+                                    currentUser: widget.currentUserName,
+                                    topicId: widget.topicId,
+                                    creator: widget.creator,
+                                    topicName: widget.topicName,
+                                    topicSubject: widget.topicSubject,
+                                    isView: widget.isView,
+                                  ));
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Center(
+                                  child: Icon(
                                 Icons.video_call_rounded,
                                 color: Constants().customBackColor,
                               )),
@@ -319,9 +373,28 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
         ? AppBar(
             backgroundColor: Constants().customColor1,
             elevation: 0,
-          )
-        : AppBar(
+            automaticallyImplyLeading: false,
             actions: [
+                IconButton(
+                    onPressed: () {
+                      nextScreenReplace(context, TopicPage());
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                    )),
+              ])
+        : AppBar(
+            backgroundColor: Constants().customColor1,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    nextScreenReplace(context, TopicPage());
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                  )),
               IconButton(
                   onPressed: () {
                     saveDetails();
@@ -337,8 +410,6 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
                     Icons.delete_rounded,
                   ))
             ],
-            backgroundColor: Constants().customColor1,
-            elevation: 0,
           );
   }
 
@@ -349,6 +420,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
         fileContents(),
         videoContents(),
         imageContents(),
+        quizList(),
         widget.isView
             ? Container(
                 alignment: Alignment.bottomCenter,
@@ -487,6 +559,47 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
     );
   }
 
+  Widget quizList() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 24),
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: quizStream,
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+                snapshot.data!.docs;
+
+            return ListView.builder(
+              itemCount: docs.length,
+              itemBuilder: (_, index) {
+                final doc = docs[index];
+                final imgUrl = doc["quizImgUrl"];
+                final desc = doc["quizDesc"];
+                final title = doc["quizTitle"];
+                final quizId = doc.id;
+
+                return QuizTile(
+                  imgUrl: imgUrl,
+                  desc: desc,
+                  title: title,
+                  quizId: quizId,
+                  creator: widget.creator,
+                  currentUserName: widget.currentUserName,
+                  topicId: widget.topicId,
+                  topicName: widget.topicName,
+                  topicSubject: widget.topicSubject,
+                  isView: widget.isView,
+                );
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+
   imageContents() {
     return StreamBuilder(
       stream: images,
@@ -550,5 +663,140 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
 
   addImage() {
     nextScreen(context, UploadImagePage(topicId: widget.topicId));
+  }
+}
+
+class QuizTile extends StatelessWidget {
+  final String imgUrl;
+  final String title;
+  final String desc;
+  final String quizId;
+
+  final String currentUserName;
+  final String creator;
+  final String topicId;
+  final String topicName;
+  final String topicSubject;
+
+  final bool isView;
+
+  QuizTile(
+      {required this.imgUrl,
+      required this.title,
+      required this.desc,
+      required this.quizId,
+      required this.currentUserName,
+      required this.creator,
+      required this.topicId,
+      required this.topicName,
+      required this.topicSubject,
+      required this.isView});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // onTap: () {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => PlayQuiz(
+      //               quizId: quizId,
+      //               currentUser: currentUserName,
+      //               creator: creator,
+      //               topicId: topicId,
+      //               topicName: topicName,
+      //               topicSubject: topicSubject,
+      //               isView: isView)));
+      // },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 8),
+        height: 150,
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                imgUrl,
+                width: MediaQuery.of(context).size.width - 48,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.black26,
+                  borderRadius: BorderRadius.circular(8)),
+              //color: Colors.blue,
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    desc,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text.rich(TextSpan(
+                      text: "Take the quiz",
+                      style: TextStyle(
+                          color: Constants().customForeColor,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          //nextScreen(context, const RegisterPage());
+                          nextScreen(
+                              context,
+                              PlayQuiz(
+                                  quizId: quizId,
+                                  currentUser: currentUserName,
+                                  creator: creator,
+                                  topicId: topicId,
+                                  topicName: topicName,
+                                  topicSubject: topicSubject,
+                                  isView: isView));
+                        })),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text.rich(TextSpan(
+                      text: "See Scores",
+                      style: TextStyle(
+                          color: Constants().customForeColor,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          //nextScreen(context, const RegisterPage());
+                          nextScreen(
+                              context,
+                              ScorePage(
+                                quizId: quizId,
+                                quizName: title,
+                                userName: currentUserName,
+                              ));
+                        }))
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:wachup_android_12/services/database.dart';
+import 'package:wachup_android_12/pages/topic_detail_page.dart';
+import 'package:wachup_android_12/services/databaseQuiz.dart';
 import 'package:wachup_android_12/views/home.dart';
 import 'package:wachup_android_12/views/widgets/widgets.dart';
 import 'package:wachup_android_12/widgets/widgets.dart';
 
 class AddPostQuestion extends StatefulWidget {
   final String quizId;
-  AddPostQuestion(this.quizId);
+  final String currentUser;
+  final String creator;
+  final String topicId;
+  final String topicName;
+  final String topicSubject;
+  final bool isView;
+  AddPostQuestion(this.quizId, this.currentUser, this.topicId, this.creator,
+      this.topicName, this.topicSubject, this.isView);
 
   @override
   _AddPostQuestionState createState() => _AddPostQuestionState();
@@ -21,7 +29,7 @@ class _AddPostQuestionState extends State<AddPostQuestion> {
   String option4 = "";
   bool _isLoading = false;
 
-  DatabaseService databaseService = new DatabaseService();
+  DatabaseQuizService databaseService = new DatabaseQuizService();
 
   uploadQuestionData() async {
     if (_formKey.currentState!.validate()) {
@@ -137,7 +145,15 @@ class _AddPostQuestionState extends State<AddPostQuestion> {
                         GestureDetector(
                           onTap: () {
                             //Navigator.pop(context);
-                            nextScreen(context, Quiz());
+                            nextScreen(
+                                context,
+                                TopicDetailPage(
+                                    currentUserName: widget.currentUser,
+                                    creator: widget.creator,
+                                    topicId: widget.topicId,
+                                    topicName: widget.topicName,
+                                    topicSubject: widget.topicSubject,
+                                    isView: widget.isView));
                           },
                           child: blueButton(
                             context: context,

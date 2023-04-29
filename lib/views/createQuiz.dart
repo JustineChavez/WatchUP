@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:wachup_android_12/services/database.dart';
+import 'package:wachup_android_12/services/databaseQuiz.dart';
 import 'package:wachup_android_12/views/addQuestion.dart';
 import 'package:wachup_android_12/views/widgets/widgets.dart';
 import 'package:random_string/random_string.dart';
 
 class CreateQuiz extends StatefulWidget {
+  final String currentUser;
+  final String creator;
+  final String topicId;
+  final String topicName;
+  final String topicSubject;
+  final bool isView;
+
+  const CreateQuiz(
+      {Key? key,
+      required this.currentUser,
+      required this.creator,
+      required this.topicId,
+      required this.topicName,
+      required this.topicSubject,
+      required this.isView})
+      : super(key: key);
+
   @override
   _CreateQuizState createState() => _CreateQuizState();
 }
@@ -16,7 +33,7 @@ class _CreateQuizState extends State<CreateQuiz> {
   String quizDescription = "";
   String quizId = "";
 
-  DatabaseService databaseService = new DatabaseService();
+  DatabaseQuizService databaseService = new DatabaseQuizService();
 
   bool _isLoading = false;
 
@@ -30,7 +47,8 @@ class _CreateQuizState extends State<CreateQuiz> {
         "quizId": quizId,
         "quizImgUrl": quizImageUrl,
         "quizTitle": quizTitle,
-        "quizDesc": quizDescription
+        "quizDesc": quizDescription,
+        "quizTopicId": widget.topicId
       };
       await databaseService.addQuizData(quizMap, quizId).then((value) {
         setState(() {
@@ -38,7 +56,14 @@ class _CreateQuizState extends State<CreateQuiz> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => AddQuestion(value),
+                builder: (context) => AddQuestion(
+                    value,
+                    widget.creator,
+                    widget.currentUser,
+                    widget.topicId,
+                    widget.topicName,
+                    widget.topicSubject,
+                    widget.isView),
               ));
         });
       });

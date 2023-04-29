@@ -92,14 +92,12 @@ class CustomDrawer extends Drawer {
         ListTile(
           onTap: () {
             if (currentPage != 1) {
-              nextScreen(
-                  context,
-                  TopicPage(
-                    userName: currentUserName,
-                    email: currentEmail,
-                    accountType: currentAccountType,
-                    ppURL: ppURL,
-                  ));
+              nextScreen(context, TopicPage());
+              //   userName: currentUserName,
+              //   email: currentEmail,
+              //   accountType: currentAccountType,
+              //   ppURL: ppURL,
+              // ));
             }
           },
           selected: currentPage == 1 ? true : false,
@@ -160,25 +158,25 @@ class CustomDrawer extends Drawer {
           ),
         ),
         //Games
-        ListTile(
-          onTap: () {
-            if (currentPage != 4) {
-              //nextScreen(context, QuizScreen());
-              nextScreen(context, Quiz());
-            }
-          },
-          selected: currentPage == 4 ? true : false,
-          selectedColor: Theme.of(context).primaryColor,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          leading: const Icon(Icons.smart_toy_outlined),
-          title: Text(
-            Locales.string(context, "games_title"),
-            style: TextStyle(
-                color: Constants().customForeColor,
-                fontWeight: FontWeight.w600),
-          ),
-        ),
+        // ListTile(
+        //   onTap: () {
+        //     if (currentPage != 4) {
+        //       //nextScreen(context, QuizScreen());
+        //       nextScreen(context, Quiz());
+        //     }
+        //   },
+        //   selected: currentPage == 4 ? true : false,
+        //   selectedColor: Theme.of(context).primaryColor,
+        //   contentPadding:
+        //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        //   leading: const Icon(Icons.smart_toy_outlined),
+        //   title: Text(
+        //     Locales.string(context, "games_title"),
+        //     style: TextStyle(
+        //         color: Constants().customForeColor,
+        //         fontWeight: FontWeight.w600),
+        //   ),
+        // ),
         //Localization
         ListTile(
           onTap: () async {

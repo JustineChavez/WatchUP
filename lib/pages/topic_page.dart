@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:wachup_android_12/pages/search_page_topics.dart';
+import '../helper/helper_function.dart';
 import '../service/auth_service.dart';
 import '../service/database_service.dart';
 import '../shared/constants.dart';
@@ -10,17 +11,17 @@ import '../widgets/topic_tile.dart';
 import '../widgets/widgets.dart';
 
 class TopicPage extends StatefulWidget {
-  String userName;
-  String email;
-  String accountType;
-  String ppURL;
-  TopicPage(
-      {Key? key,
-      required this.email,
-      required this.userName,
-      required this.accountType,
-      required this.ppURL})
-      : super(key: key);
+  // String userName;
+  // String email;
+  // String accountType;
+  // String ppURL;
+  TopicPage({
+    Key? key,
+    // required this.email,
+    // required this.userName,
+    // required this.accountType,
+    // required this.ppURL
+  }) : super(key: key);
 
   @override
   State<TopicPage> createState() => _TopicPageState();
@@ -42,6 +43,12 @@ String getSubject(String res) {
 }
 
 class _TopicPageState extends State<TopicPage> {
+  String userName = "";
+  String email = "";
+  String accountType = "";
+  String profilePictureURL =
+      "https://avatars.githubusercontent.com/u/37553901?v=4";
+
   AuthService authService = AuthService();
   Stream? topics;
   bool _isLoading = false;
@@ -51,12 +58,34 @@ class _TopicPageState extends State<TopicPage> {
 
   @override
   void initState() {
-    super.initState();
     gettingUserData();
+    super.initState();
     //gettingUserDataOffline();
   }
 
   gettingUserData() async {
+    await HelperFunctions.getUserEmailFromSF().then((value) {
+      setState(() {
+        email = value!;
+      });
+    });
+    await HelperFunctions.getUserNameFromSF().then((val) {
+      setState(() {
+        userName = val!;
+      });
+    });
+    await HelperFunctions.getUserAccountTypeSF().then((val) {
+      setState(() {
+        accountType = val!;
+      });
+      print(accountType);
+    });
+    await HelperFunctions.getProfilePictureSF().then((val) {
+      setState(() {
+        profilePictureURL = val!;
+      });
+      print(accountType);
+    });
     // getting the list of snapshots in our stream
     await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
         .getAllTopics()
@@ -73,10 +102,10 @@ class _TopicPageState extends State<TopicPage> {
       appBar: buildAppBar(context),
       drawer: CustomDrawer(
         currentPage: 1, //Topic,
-        currentUserName: widget.userName,
-        currentEmail: widget.email,
-        currentAccountType: widget.accountType,
-        ppURL: widget.ppURL,
+        currentUserName: userName,
+        currentEmail: email,
+        currentAccountType: accountType,
+        ppURL: profilePictureURL,
       ),
       body: topicList(),
       floatingActionButton: buildFloatingActionButton(context),
@@ -86,7 +115,7 @@ class _TopicPageState extends State<TopicPage> {
   FloatingActionButton buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        widget.accountType == "Teacher"
+        accountType == "Teacher"
             ? popUpDialog(context)
             : popUpDialogStudent(context);
       },
@@ -224,12 +253,8 @@ class _TopicPageState extends State<TopicPage> {
                       });
                       DatabaseService(
                               uid: FirebaseAuth.instance.currentUser!.uid)
-                          .createTopic(
-                              FirebaseAuth.instance.currentUser!.uid,
-                              widget.userName,
-                              topicName,
-                              topicSubject,
-                              topicAbout)
+                          .createTopic(FirebaseAuth.instance.currentUser!.uid,
+                              userName, topicName, topicSubject, topicAbout)
                           .whenComplete(() {
                         _isLoading = false;
                       });
@@ -273,6 +298,7 @@ class _TopicPageState extends State<TopicPage> {
                 itemBuilder: (context, index) {
                   int reverseIndex = snapshot.data['topics'].length - index - 1;
                   return TopicTile(
+                      currentUserName: userName,
                       topicId: getId(snapshot.data['topics'][reverseIndex]),
                       creatorName: snapshot.data['fullName'],
                       topicName: getName(snapshot.data['topics'][reverseIndex]),
@@ -306,7 +332,7 @@ class _TopicPageState extends State<TopicPage> {
         children: [
           GestureDetector(
             onTap: () {
-              widget.accountType == "Teacher"
+              accountType == "Teacher"
                   ? popUpDialog(context)
                   : popUpDialogStudent(context);
             },

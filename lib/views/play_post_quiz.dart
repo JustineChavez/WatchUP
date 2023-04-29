@@ -9,7 +9,24 @@ import 'package:wachup_android_12/views/widgets/widgets.dart';
 
 class PlayPostQuiz extends StatefulWidget {
   final String quizId;
-  PlayPostQuiz({required this.quizId});
+  final String currentUser;
+  final String creator;
+  final String topicId;
+  final String topicName;
+  final String topicSubject;
+  final bool isView;
+
+  final String preTestScore;
+
+  PlayPostQuiz(
+      {required this.quizId,
+      required this.currentUser,
+      required this.creator,
+      required this.topicId,
+      required this.topicName,
+      required this.topicSubject,
+      required this.isView,
+      required this.preTestScore});
 
   @override
   _PlayPostQuizState createState() => _PlayPostQuizState();
@@ -108,6 +125,13 @@ class _PlayPostQuizState extends State<PlayPostQuiz> {
                   incorrect: _incorrect,
                   total: total,
                   quizId: widget.quizId,
+                  creator: widget.creator,
+                  currentUser: widget.currentUser,
+                  topicId: widget.topicId,
+                  topicName: widget.topicName,
+                  topicSubject: widget.topicSubject,
+                  isView: widget.isView,
+                  preTestScore: widget.preTestScore,
                 ),
               ));
         },

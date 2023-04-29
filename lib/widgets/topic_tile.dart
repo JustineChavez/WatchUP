@@ -12,12 +12,14 @@ import '../shared/constants.dart';
 import '../shared/constants_v2.dart';
 
 class TopicTile extends StatefulWidget {
+  final String currentUserName;
   final String creatorName;
   final String topicId;
   final String topicName;
   final String topicSubject;
   const TopicTile(
       {Key? key,
+      required this.currentUserName,
       required this.topicId,
       required this.creatorName,
       required this.topicName,
@@ -59,6 +61,7 @@ class _TopicTileState extends State<TopicTile> {
             ? nextScreen(
                 context,
                 TopicDetailPage(
+                  currentUserName: widget.currentUserName,
                   creator: widget.creatorName,
                   topicId: widget.topicId,
                   topicName: widget.topicName,
@@ -124,6 +127,7 @@ class _TopicTileState extends State<TopicTile> {
                   nextScreen(
                       context,
                       TopicDetailPage(
+                        currentUserName: widget.currentUserName,
                         creator: widget.creatorName,
                         topicId: widget.topicId,
                         topicName: widget.topicName,
@@ -142,6 +146,7 @@ class _TopicTileState extends State<TopicTile> {
                   nextScreen(
                       context,
                       TopicDetailPage(
+                        currentUserName: widget.currentUserName,
                         creator: widget.creatorName,
                         topicId: widget.topicId,
                         topicName: widget.topicName,

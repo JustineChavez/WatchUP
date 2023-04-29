@@ -8,11 +8,24 @@ import '../widgets/widgets.dart';
 class Results extends StatefulWidget {
   final int correct, incorrect, total;
   final quizId;
+  final String currentUser;
+  final String creator;
+  final String topicId;
+  final String topicName;
+  final String topicSubject;
+  final bool isView;
+
   const Results(
       {required this.correct,
       required this.incorrect,
       required this.total,
-      required this.quizId});
+      required this.quizId,
+      required this.currentUser,
+      required this.creator,
+      required this.topicId,
+      required this.topicName,
+      required this.topicSubject,
+      required this.isView});
 
   @override
   _ResultsState createState() => _ResultsState();
@@ -49,7 +62,19 @@ class _ResultsState extends State<Results> {
               ),
               GestureDetector(
                 onTap: () {
-                  nextScreen(context, PlayQuizVideo(quizId: widget.quizId));
+                  nextScreen(
+                      context,
+                      PlayQuizVideo(
+                        quizId: widget.quizId,
+                        creator: widget.creator,
+                        currentUser: widget.currentUser,
+                        topicId: widget.topicId,
+                        topicName: widget.topicName,
+                        topicSubject: widget.topicSubject,
+                        isView: widget.isView,
+                        preTestScore:
+                            "Pre-Test: ${widget.correct}/${widget.correct + widget.incorrect}",
+                      ));
                   //Navigator.pop(context);
                 },
                 child: blueButton(

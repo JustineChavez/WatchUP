@@ -16,7 +16,7 @@ class DatabaseService {
   final CollectionReference reelCollection =
       FirebaseFirestore.instance.collection("reels");
   final CollectionReference quizCollection =
-      FirebaseFirestore.instance.collection("quizes");
+      FirebaseFirestore.instance.collection("Quiz");
 
   // saving the userdata
   Future savingUserData(String fullName, String email, String accountType,
@@ -316,6 +316,14 @@ class DatabaseService {
         .snapshots();
   }
 
+  // getting the videos
+  getQuizContent(String topicId) async {
+    return topicCollection
+        .doc(topicId)
+        .collection("topicQuizContent")
+        .snapshots();
+  }
+
   // getting the images
   getImageContent(String topicId) async {
     return topicCollection
@@ -508,6 +516,10 @@ class DatabaseService {
     reelCollection.doc(reelId).collection("comments").add(commentData);
   }
 
+  addScores(String quizId, Map<String, dynamic> commentData) async {
+    quizCollection.doc(quizId).collection("scores").add(commentData);
+  }
+
   getComments(String reelId) async {
     return reelCollection
         .doc(reelId)
@@ -520,6 +532,15 @@ class DatabaseService {
     return reelCollection
         .doc(reelId)
         .collection("likes")
+        .orderBy("time")
+        .snapshots();
+  }
+
+  getQuizScore(String quizId) async {
+    print(quizId);
+    return quizCollection
+        .doc(quizId)
+        .collection("scores")
         .orderBy("time")
         .snapshots();
   }
