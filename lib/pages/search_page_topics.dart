@@ -117,7 +117,8 @@ class _SearchPageStateTopic extends State<SearchPageTopic> {
         isLoading = true;
       });
       await DatabaseService()
-          .searchTopicByName(searchController.text)
+          //.searchTopicByName(searchController.text)
+          .searchTopics()
           .then((snapshot) {
         setState(() {
           searchSnapshot = snapshot;
@@ -134,12 +135,19 @@ class _SearchPageStateTopic extends State<SearchPageTopic> {
             shrinkWrap: true,
             itemCount: searchSnapshot!.docs.length,
             itemBuilder: (context, index) {
-              return topicTile(
-                  userName,
-                  searchSnapshot!.docs[index]['topicId'],
-                  searchSnapshot!.docs[index]['topicName'],
-                  searchSnapshot!.docs[index]['creator'],
-                  searchSnapshot!.docs[index]['topicSubject']);
+              //print(searchSnapshot!.docs[index]['topicName'].toString());
+              if (searchSnapshot!.docs[index]['topicName']
+                  .toString()
+                  .toLowerCase()
+                  //.startsWith(searchController.text.toLowerCase())
+                  .contains(searchController.text.toLowerCase())) {
+                return topicTile(
+                    userName,
+                    searchSnapshot!.docs[index]['topicId'],
+                    searchSnapshot!.docs[index]['topicName'],
+                    searchSnapshot!.docs[index]['creator'],
+                    searchSnapshot!.docs[index]['topicSubject']);
+              }
             },
           )
         : Container();

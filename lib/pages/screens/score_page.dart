@@ -71,9 +71,11 @@ class _ScorePageState extends State<ScorePage> {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
                   return MessageTile(
-                      message: snapshot.data.docs[index]['result'],
-                      sender: snapshot.data.docs[index]['tester'],
-                      sentByMe: true);
+                    message: snapshot.data.docs[index]['result'],
+                    sender: snapshot.data.docs[index]['tester'],
+                    sentByMe: true,
+                    ts: snapshot.data.docs[index]['time'],
+                  );
                 },
               )
             : Container();

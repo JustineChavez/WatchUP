@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wachup_android_12/widgets/widgets.dart';
 import 'package:wachup_android_12/widgets/widgets.dart';
 
+import '../notification_service.dart';
 import '../shared/constants.dart';
 import '../shared/constants_v2.dart';
 
@@ -25,6 +26,10 @@ class GroupTile extends StatefulWidget {
 class _GroupTileState extends State<GroupTile> {
   @override
   Widget build(BuildContext context) {
+    //Notif
+    NotificationService()
+        .showNotification(title: widget.groupName, body: 'New Message!');
+
     return GestureDetector(
       onTap: () {
         nextScreen(

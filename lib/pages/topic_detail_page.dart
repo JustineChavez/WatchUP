@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_locales/flutter_locales.dart';
+import 'package:wachup_android_12/constants.dart';
 import 'package:wachup_android_12/pages/screens/score_page.dart';
 import 'package:wachup_android_12/pages/topic_page.dart';
 import 'package:wachup_android_12/pages/upload/upload_file.dart';
@@ -640,17 +641,51 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
   }
 
   deleteDetails() async {
-    await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
-        .deleteTopic(widget.topicId, old_id);
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "Delete",
+              style: TextStyle(
+                  color: Constants().customForeColor,
+                  fontWeight: FontWeight.w600),
+            ),
+            content: Text("Are you sure you want to delete this topic?"),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.cancel_outlined,
+                  color: Constants().customColor2,
+                ),
+              ),
+              IconButton(
+                onPressed: () async {
+                  await DatabaseService(
+                          uid: FirebaseAuth.instance.currentUser!.uid)
+                      .deleteTopic(widget.topicId, old_id);
 
-    setState(() {
-      old_id = "${widget.topicId}_${name}_$subject";
-    });
-    //print(old_id);
-    Navigator.pop(context);
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: LocaleText('topic_detail_saved')));
+                  setState(() {
+                    old_id = "${widget.topicId}_${name}_$subject";
+                  });
+                  //print(old_id);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: LocaleText('topic_detail_saved')));
+                },
+                icon: Icon(
+                  Icons.done_outline,
+                  color: Constants().customColor1,
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   addFile() {
@@ -695,32 +730,23 @@ class QuizTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // onTap: () {
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => PlayQuiz(
-      //               quizId: quizId,
-      //               currentUser: currentUserName,
-      //               creator: creator,
-      //               topicId: topicId,
-      //               topicName: topicName,
-      //               topicSubject: topicSubject,
-      //               isView: isView)));
-      // },
       child: Container(
         margin: EdgeInsets.only(bottom: 8),
         height: 150,
         child: Stack(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                imgUrl,
-                width: MediaQuery.of(context).size.width - 48,
-                fit: BoxFit.cover,
-              ),
-            ),
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 48,
+                  color: Constants().customColor1,
+                )
+                // Image.network(
+                //   imgUrl,
+                //   width: MediaQuery.of(context).size.width - 48,
+                //   fit: BoxFit.cover,
+                // ),
+                ),
             Container(
               decoration: BoxDecoration(
                   color: Colors.black26,
@@ -790,6 +816,52 @@ class QuizTile extends StatelessWidget {
                                 quizName: title,
                                 userName: currentUserName,
                               ));
+                        })),
+                  Text.rich(TextSpan(
+                      text: "Delete Quiz",
+                      style: TextStyle(
+                          color: Constants().customForeColor,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          showDialog(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "Delete Quiz",
+                                    style: TextStyle(
+                                        color: Constants().customForeColor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  content: Text(
+                                      "Are you sure you want to delete this quiz?"),
+                                  actions: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.cancel_outlined,
+                                        color: Constants().customColor2,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () async {
+                                        DatabaseService()
+                                            .deleteQuizContent(quizId);
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.done_outline,
+                                        color: Constants().customColor1,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
                         }))
                 ],
               ),

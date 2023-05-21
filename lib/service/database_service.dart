@@ -30,6 +30,8 @@ class DatabaseService {
       "topics": [],
       "profilePic": "",
       "uid": uid,
+      "status": "disabled",
+      "uploadedId": ""
     });
   }
 
@@ -223,6 +225,24 @@ class DatabaseService {
     });
   }
 
+  Future uploadId(String email, String imageURL) async {
+    String _uid = "";
+    userCollection.where("email", isEqualTo: email).get().then(
+      (querySnapshot) {
+        //print("Successfully completed 123123123312");
+        for (var docSnapshot in querySnapshot.docs) {
+          _uid = docSnapshot.get("uid");
+          return userCollection
+              .doc(_uid)
+              .update({'uploadedId': imageURL})
+              .then((value) => print("image Updated"))
+              .catchError((error) => print("Failed to update user: $error"));
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+  }
+
   // Update Value of topic
   Future updateTopicDetails(String topicId, String topicName,
       String topicSubject, String topicAbout, String oldId) async {
@@ -300,6 +320,10 @@ class DatabaseService {
         .delete();
   }
 
+  deleteQuizContent(String quizId) async {
+    return quizCollection.doc(quizId).delete();
+  }
+
   // getting the files
   getFileContent(String topicId) async {
     return topicCollection
@@ -348,6 +372,11 @@ class DatabaseService {
   searchTopicByName(String topicName) async {
     QuerySnapshot snapshot =
         await topicCollection.where("topicName", isEqualTo: topicName).get();
+    return snapshot;
+  }
+
+  searchTopics() async {
+    QuerySnapshot snapshot = await topicCollection.get();
     return snapshot;
   }
 

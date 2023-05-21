@@ -6,4 +6,5 @@ class QuestionModel {
   late String option4;
   late String correctOption;
   late bool answered;
+  late bool identification;
 }

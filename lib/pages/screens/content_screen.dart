@@ -73,10 +73,17 @@ class _ContentScreenState extends State<ContentScreen> {
         _chewieController != null &&
                 _chewieController!.videoPlayerController.value.isInitialized
             ? GestureDetector(
-                onDoubleTap: () {
-                  setState(() {
-                    _liked = !_liked;
-                  });
+                onTap: () {
+                  // setState(() {
+                  //   _liked = !_liked;
+                  // });
+
+                  if (_chewieController!.isPlaying) {
+                    _chewieController!.pause();
+                  } else {
+                    // If the video is paused, play it.
+                    _chewieController!.play();
+                  }
                 },
                 child: Chewie(
                   controller: _chewieController!,

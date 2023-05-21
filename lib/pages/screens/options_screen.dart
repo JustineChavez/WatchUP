@@ -55,33 +55,41 @@ class _OptionScreenState extends State<OptionScreen> {
                         radius: 16,
                       ),
                       SizedBox(width: 6),
-                      Text(widget.reelCreatorName!),
+                      Text(widget.reelCreatorName!,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Constants().customForeColor,
+                              shadows: [
+                                Shadow(
+                                    color: Constants().customBackColor,
+                                    //offset: Offset(-4, -7),
+                                    blurRadius: 7)
+                              ])),
                       SizedBox(width: 25),
-                      //Icon(Icons.verified, size: 15),
                       SizedBox(width: 25),
-                      // TextButton(
-                      //   onPressed: () {},
-                      //   child: Text(
-                      //     'Follow',
-                      //     style: TextStyle(
-                      //       color: Colors.white,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
-                  SizedBox(width: 6),
-                  Text(widget.reelName!),
-                  SizedBox(height: 10),
-                  // Row(
-                  //   children: [
-                  //     Icon(
-                  //       Icons.music_note,
-                  //       size: 15,
-                  //     ),
-                  //     Text('Original Audio - some music track--'),
-                  //   ],
-                  // ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 18),
+                      Text(widget.reelName!,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Constants().customForeColor,
+                              shadows: [
+                                Shadow(
+                                    color: Constants().customBackColor,
+                                    //offset: Offset(-4, -7),
+                                    blurRadius: 3)
+                              ])),
+                      SizedBox(height: 10),
+                    ],
+                  )
                 ],
               ),
               Column(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wachup_android_12/pages/topic_detail_page.dart';
 import 'package:wachup_android_12/services/databaseQuiz.dart';
+import 'package:wachup_android_12/shared/constants.dart';
 import 'package:wachup_android_12/views/home.dart';
 import 'package:wachup_android_12/views/widgets/widgets.dart';
 import 'package:wachup_android_12/widgets/widgets.dart';
@@ -77,6 +78,16 @@ class _AddPostQuestionState extends State<AddPostQuestion> {
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: <Widget>[
+                    Text(
+                      '2-4 Options means multiple choices;\r\n2 Options can be set as true or false;\r\n1 Option means identification.',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Constants().customColor2),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     TextFormField(
                       validator: (val) =>
                           val!.isEmpty ? "Enter Question" : null,
@@ -104,8 +115,8 @@ class _AddPostQuestionState extends State<AddPostQuestion> {
                       height: 6,
                     ),
                     TextFormField(
-                      validator: (val) =>
-                          val!.isEmpty ? "Enter Option 2" : null,
+                      // validator: (val) =>
+                      //     val!.isEmpty ? "Enter Option 2" : null,
                       decoration: InputDecoration(
                         hintText: "Option 2",
                       ),
@@ -117,8 +128,8 @@ class _AddPostQuestionState extends State<AddPostQuestion> {
                       height: 6,
                     ),
                     TextFormField(
-                      validator: (val) =>
-                          val!.isEmpty ? "Enter Option 3" : null,
+                      // validator: (val) =>
+                      //     val!.isEmpty ? "Enter Option 3" : null,
                       decoration: InputDecoration(
                         hintText: "Option 3",
                       ),
@@ -130,8 +141,8 @@ class _AddPostQuestionState extends State<AddPostQuestion> {
                       height: 6,
                     ),
                     TextFormField(
-                      validator: (val) =>
-                          val!.isEmpty ? "Enter Option 4" : null,
+                      // validator: (val) =>
+                      //     val!.isEmpty ? "Enter Option 4" : null,
                       decoration: InputDecoration(
                         hintText: "Option 4",
                       ),

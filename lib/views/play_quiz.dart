@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wachup_android_12/models/question_model.dart';
 import 'package:wachup_android_12/services/database.dart';
 import 'package:wachup_android_12/views/result.dart';
+import 'package:wachup_android_12/widgets/quiz_play_identification.dart';
 import 'package:wachup_android_12/widgets/quiz_play_widgets.dart';
 import 'package:wachup_android_12/views/widgets/widgets.dart';
+
+import '../shared/constants.dart';
 
 class PlayQuiz extends StatefulWidget {
   final String quizId;
@@ -40,17 +44,67 @@ class _PlayQuizState extends State<PlayQuiz> {
       DocumentSnapshot questionSnapshot) {
     QuestionModel questionModel = new QuestionModel();
     questionModel.question = questionSnapshot["question"];
-    List<String> options = [
-      questionSnapshot["option1"],
-      questionSnapshot["option2"],
-      questionSnapshot["option3"],
-      questionSnapshot["option4"],
-    ];
-    options.shuffle();
-    questionModel.option1 = options[0];
-    questionModel.option2 = options[1];
-    questionModel.option3 = options[2];
-    questionModel.option4 = options[3];
+    questionModel.identification = false;
+    List<String> options;
+    //  = [
+    //   questionSnapshot["option1"],
+    //   questionSnapshot["option2"],
+    //   questionSnapshot["option3"],
+    //   questionSnapshot["option4"],
+    // ];
+
+    if (questionSnapshot["option2"] == "") {
+      //setState(() {
+      //});
+      options = [questionSnapshot["option1"]];
+      questionModel.option1 = options[0];
+      questionModel.option2 = "";
+      questionModel.option3 = "";
+      questionModel.option4 = "";
+      questionModel.identification = true;
+    } else if (questionSnapshot["option3"] == "") {
+      //setState(() {
+      options = [questionSnapshot["option1"], questionSnapshot["option2"]];
+      options.shuffle();
+      questionModel.option1 = options[0];
+      questionModel.option2 = options[1];
+      questionModel.option3 = "";
+      questionModel.option4 = "";
+      //});
+    } else if (questionSnapshot["option4"] == "") {
+      //setState(() {
+      options = [
+        questionSnapshot["option1"],
+        questionSnapshot["option2"],
+        questionSnapshot["option3"]
+      ];
+      options.shuffle();
+      questionModel.option1 = options[0];
+      questionModel.option2 = options[1];
+      questionModel.option3 = options[2];
+      questionModel.option4 = "";
+      //});
+    } else {
+      //setState(() {
+      options = [
+        questionSnapshot["option1"],
+        questionSnapshot["option2"],
+        questionSnapshot["option3"],
+        questionSnapshot["option4"],
+      ];
+      options.shuffle();
+      questionModel.option1 = options[0];
+      questionModel.option2 = options[1];
+      questionModel.option3 = options[2];
+      questionModel.option4 = options[3];
+      //});
+    }
+
+    //options.shuffle();
+    // questionModel.option1 = options[0];
+    // questionModel.option2 = options[1];
+    // questionModel.option3 = options[2];
+    // questionModel.option4 = options[3];
     questionModel.correctOption = questionSnapshot["option1"];
     questionModel.answered = false;
 
@@ -100,10 +154,9 @@ class _PlayQuizState extends State<PlayQuiz> {
                     itemCount: questionSnapshot!.docs.length,
                     itemBuilder: (context, index) {
                       return QuizPlayTile(
-                        questionModel: getQuestionModelFromDataSnapshot(
-                            questionSnapshot!.docs[index]),
-                        index: index,
-                      );
+                          questionModel: getQuestionModelFromDataSnapshot(
+                              questionSnapshot!.docs[index]),
+                          index: index);
                     },
                   ),
           ],
@@ -137,6 +190,7 @@ class _PlayQuizState extends State<PlayQuiz> {
 class QuizPlayTile extends StatefulWidget {
   final QuestionModel questionModel;
   final int index;
+
   QuizPlayTile({required this.questionModel, required this.index});
 
   @override
@@ -145,10 +199,12 @@ class QuizPlayTile extends StatefulWidget {
 
 class _QuizPlayTileState extends State<QuizPlayTile> {
   String optionSelected = "";
+  String answer = "";
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -162,8 +218,15 @@ class _QuizPlayTileState extends State<QuizPlayTile> {
           SizedBox(
             height: 4,
           ),
+          // IdentificationTile(
+          //     correctAnswer: widget.questionModel.correctOption,
+          //     description: widget.questionModel.option1,
+          //     option: "",
+          //     optionSelected: optionSelected,
+          //   )
           GestureDetector(
             onTap: () {
+              if (widget.questionModel.identification) return;
               if (!widget.questionModel.answered) {
                 //Correct
                 if (widget.questionModel.option1 ==
@@ -182,11 +245,57 @@ class _QuizPlayTileState extends State<QuizPlayTile> {
                 }
               }
             },
-            child: OptionTile(
-              correctAnswer: widget.questionModel.correctOption,
-              description: widget.questionModel.option1,
-              option: "A",
-              optionSelected: optionSelected,
+            child: Row(
+              children: [
+                widget.questionModel.identification
+                    ? TextFormField(
+                        // validator: (val) =>
+                        //     val!.isEmpty ? "Enter Option 1" : null,
+                        decoration: InputDecoration(
+                          constraints: BoxConstraints(maxWidth: 200),
+                          hintText: "Type your answer",
+                        ),
+                        onChanged: (val) {
+                          answer = val;
+                        },
+                      )
+                    : OptionTile(
+                        correctAnswer: widget.questionModel.correctOption,
+                        description: widget.questionModel.option1,
+                        option: "A",
+                        optionSelected: optionSelected,
+                        isIdentification: widget.questionModel.identification,
+                      ),
+                widget.questionModel.identification
+                    ? InkWell(
+                        onTap: () {
+                          if (!widget.questionModel.answered) {
+                            //Correct
+                            if (answer.toLowerCase() ==
+                                widget.questionModel.correctOption
+                                    .toLowerCase()) {
+                              optionSelected = widget.questionModel.option1;
+                              widget.questionModel.answered = true;
+                              _correct = _correct + 1;
+                              _notAttempted = _notAttempted - 1;
+                              setState(() {});
+                            } else {
+                              optionSelected = widget.questionModel.option1;
+                              widget.questionModel.answered = true;
+                              _incorrect = _incorrect + 1;
+                              _notAttempted = _notAttempted - 1;
+                              setState(() {});
+                            }
+                          }
+                        },
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                              fontSize: 14, color: Constants().customColor2),
+                        ),
+                      )
+                    : Container(),
+              ],
             ),
           ),
           SizedBox(
@@ -217,6 +326,7 @@ class _QuizPlayTileState extends State<QuizPlayTile> {
               description: widget.questionModel.option2,
               option: "B",
               optionSelected: optionSelected,
+              isIdentification: widget.questionModel.identification,
             ),
           ),
           SizedBox(
@@ -247,6 +357,7 @@ class _QuizPlayTileState extends State<QuizPlayTile> {
               description: widget.questionModel.option3,
               option: "C",
               optionSelected: optionSelected,
+              isIdentification: widget.questionModel.identification,
             ),
           ),
           SizedBox(
@@ -277,6 +388,7 @@ class _QuizPlayTileState extends State<QuizPlayTile> {
               description: widget.questionModel.option4,
               option: "D",
               optionSelected: optionSelected,
+              isIdentification: widget.questionModel.identification,
             ),
           ),
           SizedBox(

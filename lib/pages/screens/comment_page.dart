@@ -116,7 +116,8 @@ class _ReelsCommentPageState extends State<ReelsCommentPage> {
                   return MessageTile(
                       message: snapshot.data.docs[index]['comment'],
                       sender: snapshot.data.docs[index]['commenter'],
-                      sentByMe: true);
+                      sentByMe: true,
+                      ts: snapshot.data.docs[index]['time']);
                 },
               )
             : Container();

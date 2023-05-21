@@ -91,19 +91,19 @@ class _CreateQuizState extends State<CreateQuiz> {
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: <Widget>[
-                    TextFormField(
-                      validator: (val) =>
-                          val!.isEmpty ? "Enter Image Url" : null,
-                      decoration: InputDecoration(
-                        hintText: "Quiz Image Url",
-                      ),
-                      onChanged: (val) {
-                        quizImageUrl = val;
-                      },
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
+                    // TextFormField(
+                    //   validator: (val) =>
+                    //       val!.isEmpty ? "Enter Image Url" : null,
+                    //   decoration: InputDecoration(
+                    //     hintText: "Quiz Image Url",
+                    //   ),
+                    //   onChanged: (val) {
+                    //     quizImageUrl = val;
+                    //   },
+                    // ),
+                    // SizedBox(
+                    //   height: 6,
+                    // ),
                     TextFormField(
                       validator: (val) =>
                           val!.isEmpty ? "Enter Quiz Title" : null,

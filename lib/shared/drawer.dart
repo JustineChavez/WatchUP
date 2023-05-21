@@ -52,7 +52,9 @@ class CustomDrawer extends Drawer {
           height: 15,
         ),
         Text(
-          currentUserName,
+          currentAccountType == "Teacher"
+              ? "Hi Teacher $currentUserName"
+              : currentUserName,
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
         ),

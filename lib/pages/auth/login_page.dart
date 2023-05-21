@@ -6,6 +6,7 @@ import 'package:flutter_locales/flutter_locales.dart';
 import 'package:wachup_android_12/pages/auth/recover_page.dart';
 import 'package:wachup_android_12/pages/auth/register_page.dart';
 import 'package:wachup_android_12/pages/screens/reels_page.dart';
+import 'package:wachup_android_12/pages/upload/upload_id_for_verification.dart';
 import 'package:wachup_android_12/service/auth_service.dart';
 import 'package:wachup_android_12/service/database_service.dart';
 import 'package:wachup_android_12/shared/constants.dart';
@@ -13,6 +14,7 @@ import 'package:wachup_android_12/widgets/widgets.dart';
 //import 'package:wachup_android_12/shared/constants_v2.dart';
 
 import '../../helper/helper_function.dart';
+import '../../notification_service.dart';
 import '../../shared/localization.dart';
 import '../home_page.dart';
 
@@ -29,6 +31,14 @@ class _LoginPageState extends State<LoginPage> {
   String password = "";
   bool isLoading = false;
   AuthService authService = AuthService();
+
+  //NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    super.initState();
+    //notificationServices.initializeNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +147,31 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                       ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      // SizedBox(
+                      //   width: double.infinity,
+                      //   child: ElevatedButton(
+                      //     style: ElevatedButton.styleFrom(
+                      //         backgroundColor: Constants().customColor3,
+                      //         elevation: 0,
+                      //         shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(8))),
+                      //     child: Text(
+                      //       "Send Notification",
+                      //       style: TextStyle(
+                      //           color: Constants().customBackColor,
+                      //           fontSize: 16),
+                      //     ),
+                      //     onPressed: () {
+                      //       NotificationService().showNotification(
+                      //           title: 'Sample title', body: 'It works!');
+                      //       //login();
+                      //       //loginOffline();
+                      //     },
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -210,19 +245,38 @@ class _LoginPageState extends State<LoginPage> {
           QuerySnapshot snapshot =
               await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
                   .gettingUserData(userName);
-          // saving the values to our shared preferences
-          await HelperFunctions.saveUserLoggedInStatus(true);
-          await HelperFunctions.saveUserEmailSF(userName);
-          await HelperFunctions.saveUserFullNameSF(
-              snapshot.docs[0]['fullName']);
-          await HelperFunctions.saveUserAccountTypeSF(
-              snapshot.docs[0]['accountType']);
-          await HelperFunctions.saveUserLanguageSF(
-              snapshot.docs[0]['userLanguage']);
-          await HelperFunctions.saveProfilePictureSF(
-              snapshot.docs[0]['profilePic']);
-          //nextScreenReplace(context, HomePage());
-          nextScreenReplace(context, ReelsPage());
+          String status = "";
+          try {
+            status = await snapshot.docs[0]['status'];
+          } catch (error) {
+            print('No status on this account.');
+            //status = 'disabled';
+          }
+          print(status);
+          if (status == 'disabled') {
+            showSnackbar(
+                context, "Disabled Account.", Constants().customColor2);
+            setState(() {
+              isLoading = false;
+            });
+            print("test123");
+            nextScreenReplace(
+                context, UploadIdPage(email: snapshot.docs[0]['email']));
+          } else {
+            // saving the values to our shared preferences
+            await HelperFunctions.saveUserLoggedInStatus(true);
+            await HelperFunctions.saveUserEmailSF(userName);
+            await HelperFunctions.saveUserFullNameSF(
+                snapshot.docs[0]['fullName']);
+            await HelperFunctions.saveUserAccountTypeSF(
+                snapshot.docs[0]['accountType']);
+            await HelperFunctions.saveUserLanguageSF(
+                snapshot.docs[0]['userLanguage']);
+            await HelperFunctions.saveProfilePictureSF(
+                snapshot.docs[0]['profilePic']);
+            //nextScreenReplace(context, HomePage());
+            nextScreenReplace(context, ReelsPage());
+          }
         } else {
           showSnackbar(context, value, Constants().customColor2);
           setState(() {

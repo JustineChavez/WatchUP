@@ -117,7 +117,8 @@ class _ReelsLikePageState extends State<ReelsLikePage> {
                   return MessageTile(
                       message: snapshot.data.docs[index]['like'],
                       sender: snapshot.data.docs[index]['liker'],
-                      sentByMe: true);
+                      sentByMe: true,
+                      ts: snapshot.data.docs[index]['time']);
                 },
               )
             : Container();

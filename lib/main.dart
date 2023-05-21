@@ -3,11 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_locales/flutter_locales.dart';
 import 'package:wachup_android_12/helper/helper_function.dart';
+import 'package:wachup_android_12/notification_service.dart';
 import 'package:wachup_android_12/pages/auth/splash_screen.dart';
+import 'package:wachup_android_12/pages/home_page.dart';
+import 'package:wachup_android_12/pages/screens/reels_page.dart';
+import 'package:wachup_android_12/pages/test.dart';
 import 'package:wachup_android_12/shared/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
   await Locales.init(['en', 'fil']);
   if (kIsWeb) {
     // run for web
@@ -35,11 +40,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool isSignedIn = false;
 
+  //NotificationServices notificationServices = NotificationServices();
+
   @override
   void initState() {
     super.initState();
-    //getUserLoggedInStatus();
-    getUserLoggedInStatusOffline();
+    getUserLoggedInStatus();
+    //notificationServices.initializeNotifications();
+    //getUserLoggedInStatusOffline();
   }
 
   getUserLoggedInStatus() async {
@@ -61,7 +69,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    //WidgetsFlutterBinding.ensureInitialized();
     //timeDilation = 0.5;
     return LocaleBuilder(
         builder: (locale) => MaterialApp(
@@ -76,7 +83,10 @@ class _MyAppState extends State<MyApp> {
             ),
             debugShowCheckedModeBanner: false,
             title: "Wachup",
-            // home: isSignedIn ? const HomePage() : const LoginPage());
-            home: const SplashScreen()));
+            // home: MyHomePage(
+            //   title: "Test",
+            // )));
+            home: isSignedIn ? ReelsPage() : const SplashScreen()));
+    //home: const SplashScreen()));
   }
 }
